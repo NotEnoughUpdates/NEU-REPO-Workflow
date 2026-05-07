@@ -3,6 +3,7 @@ package me.alex.workflow.utils;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 import me.alex.workflow.utils.models.ChangedFile;
+import me.alex.workflow.utils.models.ChangedStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
@@ -56,7 +57,7 @@ public final class GitHubApi {
 
 		try {
 			List<ChangedFile> files = ChangedFile.LIST_CODEC.parse(JsonOps.INSTANCE, JsonParser.parseString(res)).getPartialOrThrow();
-			return files.stream().map(ChangedFile::fileName).toList();
+			return files.stream().filter(f -> f.status() != ChangedStatus.REMOVED).map(ChangedFile::fileName).toList();
 		} catch (Exception ex) {
 			LOGGER.error("Failed to get changed files!", ex);
 			return List.of();
