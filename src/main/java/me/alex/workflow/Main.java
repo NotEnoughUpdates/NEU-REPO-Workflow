@@ -26,8 +26,9 @@ public final class Main {
 		new ParseJSON(),
 	};
 
-	static void checkFiles() {
+	static boolean checkFiles() {
 		List<File> changedFiles = ChangedFiles.getChangedFiles();
+		if (changedFiles.isEmpty()) return false;
 		for (AbstractCheck check : CHECKS) {
 			EXECUTOR.execute(() -> {
 				List<File> matchingFiles = changedFiles.stream().filter(file -> check.getFilePatterns().stream()
@@ -37,12 +38,10 @@ public final class Main {
 				check.checkFiles(matchingFiles);
 			});
 		}
+		return true;
 	}
 
-	static void main() {
-		SharedConstants.tryDetectVersion();
-		Bootstrap.bootStrap();
-		checkFiles();
+	static void waitForThreads() {
 		try {
 			if (!EXECUTOR.awaitTermination(1, TimeUnit.MINUTES)) {
 				EXECUTOR.shutdown();
@@ -51,5 +50,11 @@ public final class Main {
 			LOGGER.error("Interrupted!", ex);
 			EXECUTOR.shutdown();
 		}
+	}
+
+	static void main() {
+		SharedConstants.tryDetectVersion();
+		Bootstrap.bootStrap();
+		if (checkFiles()) waitForThreads();
 	}
 }
