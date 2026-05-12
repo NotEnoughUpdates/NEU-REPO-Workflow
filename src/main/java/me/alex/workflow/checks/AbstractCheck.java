@@ -14,7 +14,7 @@ public interface AbstractCheck {
 	default boolean checkFiles(List<File> file) {
 		boolean res = true;
 		for (File f : file) {
-			LOGGER.info("{}: Checking file {}", this.getClass().getSimpleName(), f.getName());
+			LOGGER.debug("{}: Checking file {}", this.getClass().getSimpleName(), f.getName());
 			res &= checkFile(f);
 		}
 		return res;
