@@ -6,15 +6,15 @@ import me.alex.workflow.checks.ParseJSON;
 import me.alex.workflow.checks.ParseSNBT;
 import me.alex.workflow.utils.ChangedFiles;
 import net.minecraft.SharedConstants;
-import net.minecraft.server.Bootstrap;
 import org.slf4j.Logger;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public final class Main {
 	public static final Logger LOGGER = LogUtils.getLogger();
@@ -26,35 +26,27 @@ public final class Main {
 		new ParseJSON(),
 	};
 
-	static boolean checkFiles() {
+	static void checkFiles() {
 		List<File> changedFiles = ChangedFiles.getChangedFiles();
-		if (changedFiles.isEmpty()) return false;
+		if (changedFiles.isEmpty()) return;
+		List<CompletableFuture<Void>> tasks = new ArrayList<>();
 		for (AbstractCheck check : CHECKS) {
-			EXECUTOR.execute(() -> {
+			tasks.add(CompletableFuture.runAsync(() -> {
 				List<File> matchingFiles = changedFiles.stream().filter(file -> check.getFilePatterns().stream()
 					.anyMatch(pattern -> pattern.matcher(file.getPath()).matches())
 				).toList();
 				if (matchingFiles.isEmpty()) return;
 				check.checkFiles(matchingFiles);
-			});
+			}, EXECUTOR));
 		}
-		return true;
-	}
-
-	static void waitForThreads() {
-		try {
-			if (!EXECUTOR.awaitTermination(1, TimeUnit.MINUTES)) {
-				EXECUTOR.shutdown();
-			}
-		} catch (InterruptedException ex) {
-			LOGGER.error("Interrupted!", ex);
-			EXECUTOR.shutdown();
-		}
+		CompletableFuture.allOf(tasks.toArray(CompletableFuture[]::new)).join();
 	}
 
 	static void main() {
+		LOGGER.info("Initializing...");
 		SharedConstants.tryDetectVersion();
-		Bootstrap.bootStrap();
-		if (checkFiles()) waitForThreads();
+//		Bootstrap.bootStrap();
+		LOGGER.info("Done initializing!");
+		checkFiles();
 	}
 }
