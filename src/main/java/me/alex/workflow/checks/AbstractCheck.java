@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import static me.alex.workflow.Main.LOGGER;
 
 public interface AbstractCheck {
+	String getName();
+
 	List<Pattern> getFilePatterns();
 
 	boolean checkFile(File file);

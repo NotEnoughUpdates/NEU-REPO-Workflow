@@ -41,11 +41,18 @@ public final class Main {
 		List<CompletableFuture<Void>> tasks = new ArrayList<>();
 		for (AbstractCheck check : CHECKS) {
 			tasks.add(CompletableFuture.runAsync(() -> {
+				LOGGER.info("{}: Getting files...", check.getName());
 				List<File> matchingFiles = changedFiles.stream().filter(file ->
 					fileMatches(file, check.getFilePatterns())
 				).toList();
-				if (matchingFiles.isEmpty()) return;
-				if (!check.checkFiles(matchingFiles)) ERRORS_DETECTED.set(true);
+				if (matchingFiles.isEmpty()) {
+					LOGGER.info("{}: No matching files found!", check.getName());
+					return;
+				}
+				LOGGER.info("{}: Starting check...", check.getName());
+				boolean bl = check.checkFiles(matchingFiles);
+				if (!bl) ERRORS_DETECTED.set(true);
+				LOGGER.info("{}: Done with check, success: {}", check.getName(), bl);
 			}, EXECUTOR));
 		}
 		CompletableFuture.allOf(tasks.toArray(CompletableFuture[]::new)).join();

@@ -10,6 +10,13 @@ import java.util.regex.Pattern;
 import static me.alex.workflow.Main.LOGGER;
 
 public final class ParseSNBT implements AbstractCheck {
+	String name = "Parse SNBT";
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	public List<Pattern> getFilePatterns() {
 		return List.of(Pattern.compile(".*\\.snbt"));
