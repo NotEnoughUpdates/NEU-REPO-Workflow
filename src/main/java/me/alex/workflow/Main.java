@@ -2,7 +2,7 @@ package me.alex.workflow;
 
 import com.mojang.logging.LogUtils;
 import me.alex.workflow.checks.AbstractCheck;
-import me.alex.workflow.checks.item.ParseItem;
+import me.alex.workflow.checks.item.ParseItems;
 import me.alex.workflow.checks.ParseJSON;
 import me.alex.workflow.checks.ParseSNBT;
 import me.alex.workflow.utils.ChangedFiles;
@@ -29,7 +29,7 @@ public final class Main {
 	static AbstractCheck[] CHECKS = new AbstractCheck[]{
 		new ParseSNBT(),
 		new ParseJSON(),
-		new ParseItem(),
+		new ParseItems(),
 	};
 
 	static boolean fileMatches(File file, List<Pattern> patterns) {

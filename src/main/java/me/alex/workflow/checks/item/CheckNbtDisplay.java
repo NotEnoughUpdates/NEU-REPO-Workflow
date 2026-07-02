@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import static me.alex.workflow.Main.LOGGER;
 
-public class CheckNbtDisplay implements ChildCheck<ParseItem.Item> {
+public class CheckNbtDisplay implements ChildCheck<ParseItems.Item> {
 	String name = "Check NBT Display";
 
 	@Override
@@ -18,7 +18,7 @@ public class CheckNbtDisplay implements ChildCheck<ParseItem.Item> {
 	}
 
 	@Override
-	public boolean checkData(ParseItem.Item data) {
+	public boolean checkData(ParseItems.Item data) {
 		CompoundTag display = Objects.requireNonNull(data.nbtTag().get("display")).asCompound().orElseThrow();
 		String displayName = Objects.requireNonNull(display.get("Name")).asString().orElseThrow();
 		List<String> lore = Objects.requireNonNull(display.get("Lore")).asList().orElseThrow()

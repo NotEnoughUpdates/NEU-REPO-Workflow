@@ -19,8 +19,8 @@ import java.util.regex.Pattern;
 
 import static me.alex.workflow.Main.LOGGER;
 
-public class ParseItem implements ParentCheck<ParseItem.Item> {
-	String name = "Parse Item";
+public class ParseItems implements ParentCheck<ParseItems.Item> {
+	String name = "Parse Items";
 
 	@Override
 	public String getName() {
