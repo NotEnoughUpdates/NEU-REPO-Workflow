@@ -5,6 +5,7 @@ import me.alex.workflow.checks.AbstractCheck;
 import me.alex.workflow.checks.item.ParseItems;
 import me.alex.workflow.checks.ParseJSON;
 import me.alex.workflow.checks.ParseSNBT;
+import me.alex.workflow.checks.item.RedundantSNBT;
 import me.alex.workflow.utils.ChangedFiles;
 import net.minecraft.SharedConstants;
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ public final class Main {
 		new ParseSNBT(),
 		new ParseJSON(),
 		new ParseItems(),
+		new RedundantSNBT(),
 	};
 
 	static boolean fileMatches(File file, List<Pattern> patterns) {

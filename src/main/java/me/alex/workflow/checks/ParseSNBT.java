@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import static me.alex.workflow.Main.LOGGER;
 
 public final class ParseSNBT implements AbstractCheck {
+	public static final List<Pattern> SNBT_PATTERN = List.of(Pattern.compile("itemsOverlay/.*\\.snbt"));
 	final String name = "Parse SNBT";
 
 	@Override
@@ -19,7 +20,7 @@ public final class ParseSNBT implements AbstractCheck {
 
 	@Override
 	public List<Pattern> getFilePatterns() {
-		return List.of(Pattern.compile(".*\\.snbt"));
+		return SNBT_PATTERN;
 	}
 
 	@Override
