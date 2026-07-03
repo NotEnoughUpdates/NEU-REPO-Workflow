@@ -1,9 +1,11 @@
 package me.alex.workflow.checks;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -25,11 +27,20 @@ public final class ParseSNBT implements AbstractCheck {
 
 	@Override
 	public boolean checkFile(File file) {
+		CompoundTag tag;
 		try {
 			String content = Files.readString(file.toPath());
-			TagParser.parseCompoundFully(content);
+			tag = TagParser.parseCompoundFully(content);
 		} catch (Exception ex) {
 			LOGGER.error("Failed to read SNBT File: {}", file.getName(), ex);
+			return false;
+		}
+
+		String version = String.valueOf(tag.getCompoundOrEmpty("source").getIntOr("dataVersion", -1));
+		Path path = file.toPath();
+		String fileVersion = path.getName(path.getNameCount() - 2).toString();
+		if (!version.equals(fileVersion)) {
+			LOGGER.error("{}: File {}/{} has wrong version in data!", getName(), fileVersion, file.getName());
 			return false;
 		}
 
