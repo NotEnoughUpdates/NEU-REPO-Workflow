@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import static me.alex.workflow.Main.LOGGER;
 
 public class CheckNbtDisplay implements ChildCheck<ParseItems.Item> {
-	String name = "Check NBT Display";
+	final String name = "Check NBT Display";
 
 	@Override
 	public String getName() {

@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import static me.alex.workflow.Main.LOGGER;
 
 public class ParseItems implements ParentCheck<ParseItems.Item> {
-	String name = "Parse Items";
+	final String name = "Parse Items";
 
 	@Override
 	public String getName() {

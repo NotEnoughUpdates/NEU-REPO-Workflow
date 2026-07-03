@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import static me.alex.workflow.Main.LOGGER;
 
 public final class ParseSNBT implements AbstractCheck {
-	String name = "Parse SNBT";
+	final String name = "Parse SNBT";
 
 	@Override
 	public String getName() {

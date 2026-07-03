@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import static me.alex.workflow.Main.LOGGER;
 
 public final class ParseJSON implements AbstractCheck {
-	String name = "Parse JSON";
+	final String name = "Parse JSON";
 
 	@Override
 	public String getName() {
