@@ -7,6 +7,8 @@ group = "me.alex"
 version = "1.0-SNAPSHOT"
 
 repositories {
+	maven("https://maven.operationpotato.com/mirror")
+
 	mavenCentral()
 	exclusiveContent {
 		forRepository {
@@ -28,6 +30,7 @@ dependencies {
 	implementation(libs.minecraft)
 	implementation(libs.bundles.mc.libs)
 	implementation(libs.jspecify)
+	implementation(libs.skyblocker)
 
 	testImplementation(platform("org.junit:junit-bom:6.0.0"))
 	testImplementation("org.junit.jupiter:junit-jupiter")

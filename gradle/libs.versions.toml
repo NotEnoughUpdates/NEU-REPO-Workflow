@@ -12,6 +12,7 @@ netty = "4.2.7.Final"
 oshi = "6.9.0"
 
 jspecify = "1.0.0"
+skyblocker = "v6.7.0-beta.1+26.1.2"
 
 [libraries]
 minecraft = { module = "com.mojang:client", version.ref = "minecraft" }
@@ -29,6 +30,7 @@ mc-netty-common = { module = "io.netty:netty-common", version.ref = "netty" }
 mc-oshi = { module = "com.github.oshi:oshi-core", version.ref = "oshi" }
 
 jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
+skyblocker = { module = "maven.modrinth:skyblocker-liap", version.ref = "skyblocker" }
 
 [bundles]
 mc-libs = ["mc-authlib", "mc-brigadier", "mc-commons-lang", "mc-dfu", "mc-fastutil", "mc-gson", "mc-joml", "mc-logging",
