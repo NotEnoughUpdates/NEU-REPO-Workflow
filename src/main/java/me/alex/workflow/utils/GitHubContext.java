@@ -3,6 +3,7 @@ package me.alex.workflow.utils;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 import me.alex.workflow.utils.models.PullRequestContext;
+import me.alex.workflow.utils.models.Repository;
 import org.jspecify.annotations.Nullable;
 
 import java.io.File;
@@ -18,8 +19,7 @@ public final class GitHubContext {
 
 	//region PR Specific Variables
 	public static @Nullable String SHA;
-	public static @Nullable String ORG;
-	public static @Nullable String REPO;
+	public static @Nullable Repository REPO;
 	public static @Nullable String PULL_NUM;
 	//endregion
 
@@ -41,7 +41,6 @@ public final class GitHubContext {
 		PullRequestContext.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseString(content))
 			.ifSuccess(prContext -> {
 				SHA = prContext.head().sha();
-				ORG = prContext.org();
 				REPO = prContext.repo();
 				PULL_NUM = prContext.prNumber();
 			}).ifError(err ->

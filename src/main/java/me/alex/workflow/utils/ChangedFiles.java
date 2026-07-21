@@ -32,7 +32,7 @@ public final class ChangedFiles {
 	}
 
 	public static List<File> getChangedFiles() {
-		if (GitHubContext.SHA == null) return getAllFiles();
-		return getPrFiles(GitHubContext.ORG, GitHubContext.REPO, GitHubContext.PULL_NUM);
+		if (GitHubContext.SHA == null || GitHubContext.REPO == null) return getAllFiles();
+		return getPrFiles(GitHubContext.REPO.name(), GitHubContext.REPO.owner(), GitHubContext.PULL_NUM);
 	}
 }
