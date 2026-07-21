@@ -33,7 +33,6 @@ public final class GitHubContext {
 		String content;
 		try {
 			content = Files.readString(eventFile.toPath());
-			IO.println(content);
 		} catch (IOException ex) {
 			LOGGER.error("Failed to read event content!", ex);
 			return;
