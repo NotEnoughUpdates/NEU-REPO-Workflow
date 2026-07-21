@@ -1,4 +1,4 @@
-name: build_dist.yml
+name: Build Distribution
 on:
     push:
         branches: [ master ]
