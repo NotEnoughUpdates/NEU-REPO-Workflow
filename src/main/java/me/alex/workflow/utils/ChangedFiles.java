@@ -25,7 +25,7 @@ public final class ChangedFiles {
 		return List.of();
 	}
 
-	private static List<File> getPrFiles(@Nullable String org, @Nullable String repo, @Nullable String prNum) {
+	private static List<File> getPrFiles(@Nullable String org, @Nullable String repo, @Nullable Integer prNum) {
 		if (org == null || repo == null || prNum == null) return List.of();
 		List<String> files = GitHubApi.getChangedFiles(org, repo, prNum);
 		return files.stream().map(REPO_BASE_PATH::resolve).map(Path::toFile).toList();
@@ -33,6 +33,6 @@ public final class ChangedFiles {
 
 	public static List<File> getChangedFiles() {
 		if (GitHubContext.SHA == null || GitHubContext.REPO == null) return getAllFiles();
-		return getPrFiles(GitHubContext.REPO.name(), GitHubContext.REPO.owner(), GitHubContext.PULL_NUM);
+		return getPrFiles(GitHubContext.REPO.ownerName(), GitHubContext.REPO.repoName(), GitHubContext.PULL_NUM);
 	}
 }

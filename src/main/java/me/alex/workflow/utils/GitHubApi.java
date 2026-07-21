@@ -28,7 +28,7 @@ public final class GitHubApi {
 		return "";
 	}
 
-	private static @Nullable String getChangedFilesAPI(String org, String repo, String prNum) {
+	private static @Nullable String getChangedFilesAPI(String org, String repo, Integer prNum) {
 		HttpRequest request = HttpRequest.newBuilder()
 			.GET()
 			.uri(URI.create(PR_FILE_URL.formatted(org, repo, prNum)))
@@ -51,7 +51,7 @@ public final class GitHubApi {
 		return response.body();
 	}
 
-	public static List<String> getChangedFiles(String org, String repo, String prNum) {
+	public static List<String> getChangedFiles(String org, String repo, Integer prNum) {
 		String res = getChangedFilesAPI(org, repo, prNum);
 		if (res == null) return List.of();
 
