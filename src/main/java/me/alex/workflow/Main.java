@@ -2,11 +2,12 @@ package me.alex.workflow;
 
 import com.mojang.logging.LogUtils;
 import me.alex.workflow.checks.AbstractCheck;
-import me.alex.workflow.checks.item.ParseItems;
 import me.alex.workflow.checks.ParseJSON;
 import me.alex.workflow.checks.ParseSNBT;
 import me.alex.workflow.checks.RedundantSNBT;
+import me.alex.workflow.checks.item.ParseItems;
 import me.alex.workflow.utils.ChangedFiles;
+import me.alex.workflow.utils.Items;
 import net.minecraft.SharedConstants;
 import org.slf4j.Logger;
 
@@ -66,7 +67,10 @@ public final class Main {
 		LOGGER.info("Initializing...");
 		SharedConstants.tryDetectVersion();
 //		Bootstrap.bootStrap();
+		LOGGER.info("Initializing utils...");
+		Items.init();
 		LOGGER.info("Done initializing!");
+		LOGGER.info("Starting checks...");
 		checkFiles();
 		LOGGER.info("Done checking!");
 		if (ERRORS_DETECTED.get()) System.exit(1);

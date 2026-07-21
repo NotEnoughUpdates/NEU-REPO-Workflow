@@ -6,7 +6,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import me.alex.workflow.checks.ChildCheck;
 import me.alex.workflow.checks.ParentCheck;
 import me.alex.workflow.utils.NbtHelper;
@@ -33,7 +32,6 @@ public class ParseItems implements ParentCheck<ParseItems.Item> {
 		new CheckEnchantLevel()
 	);
 
-	public static final ObjectOpenHashSet<String> ITEMS = new ObjectOpenHashSet<>();
 
 	@Override
 	public String getName() {
@@ -43,13 +41,6 @@ public class ParseItems implements ParentCheck<ParseItems.Item> {
 	@Override
 	public List<ChildCheck<Item>> getChildren() {
 		return children;
-	}
-
-	@Override
-	public boolean checkFiles(List<File> files) {
-		ITEMS.ensureCapacity(files.size());
-		files.forEach(file -> ITEMS.add(file.getName().replace(".json", "")));
-		return ParentCheck.super.checkFiles(files);
 	}
 
 	@Override

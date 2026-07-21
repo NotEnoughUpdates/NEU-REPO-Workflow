@@ -1,6 +1,5 @@
 package me.alex.workflow.checks;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.alex.workflow.checks.snbt.CheckDataVersion;
 import me.alex.workflow.checks.snbt.CheckEnchantLevel;
 import net.minecraft.nbt.CompoundTag;
@@ -17,7 +16,6 @@ import static me.alex.workflow.Main.LOGGER;
 
 public final class ParseSNBT implements ParentCheck<ParseSNBT.Item> {
 	public static final List<Pattern> SNBT_PATTERN = List.of(Pattern.compile("itemsOverlay/.*\\.snbt"));
-	public static final Object2ObjectOpenHashMap<String, @Nullable Path> SNBT_MAP = new Object2ObjectOpenHashMap<>();
 
 	final String name = "Parse SNBT";
 	final List<ChildCheck<ParseSNBT.Item>> children = List.of(
@@ -48,15 +46,6 @@ public final class ParseSNBT implements ParentCheck<ParseSNBT.Item> {
 			LOGGER.error("Failed to read SNBT File: {}", path.getFileName(), ex);
 			return null;
 		}
-	}
-
-	@Override
-	public boolean checkFiles(List<File> files) {
-		files.stream().filter(File::isFile).forEach(file -> {
-			String fileName = file.getName().replace(".snbt", "");
-			SNBT_MAP.put(fileName, file.toPath());
-		});
-		return ParentCheck.super.checkFiles(files);
 	}
 
 	@Override

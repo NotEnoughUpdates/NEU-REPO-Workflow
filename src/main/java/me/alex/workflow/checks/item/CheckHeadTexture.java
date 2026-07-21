@@ -2,6 +2,7 @@ package me.alex.workflow.checks.item;
 
 import me.alex.workflow.checks.ChildCheck;
 import me.alex.workflow.checks.ParseSNBT;
+import me.alex.workflow.utils.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import org.jspecify.annotations.Nullable;
@@ -18,7 +19,7 @@ public class CheckHeadTexture implements ChildCheck<ParseItems.Item> {
 	}
 
 	public @Nullable CompoundTag getSnbtForItem(String itemId) {
-		Path path = ParseSNBT.SNBT_MAP.get(itemId);
+		Path path = Items.SNBT.get(itemId);
 		if (path == null) return null;
 		return ParseSNBT.readSnbt(path);
 	}

@@ -2,6 +2,7 @@ package me.alex.workflow.checks.item;
 
 import com.mojang.serialization.DataResult;
 import me.alex.workflow.checks.ChildCheck;
+import me.alex.workflow.utils.Items;
 import me.alex.workflow.utils.recipe.LegacyRecipe;
 import me.alex.workflow.utils.recipe.Recipe;
 
@@ -18,7 +19,7 @@ public class CheckItemRecipes implements ChildCheck<ParseItems.Item> {
 	public static boolean checkItemExists(String recipeItem) {
 		String itemId = recipeItem.split(":")[0];
 		if (itemId.equals("SKYBLOCK_COIN")) return true;
-		boolean bl = ParseItems.ITEMS.contains(itemId);
+		boolean bl = Items.ITEMS.contains(itemId);
 		if (!bl) LOGGER.error("Item {} in recipe does not exist!", itemId);
 		return bl;
 	}
