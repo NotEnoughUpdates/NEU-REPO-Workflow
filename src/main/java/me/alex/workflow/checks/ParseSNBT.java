@@ -2,6 +2,7 @@ package me.alex.workflow.checks;
 
 import me.alex.workflow.checks.snbt.CheckDataVersion;
 import me.alex.workflow.checks.snbt.CheckEnchantLevel;
+import me.alex.workflow.checks.snbt.CheckEnrichment;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import org.jspecify.annotations.Nullable;
@@ -20,7 +21,8 @@ public final class ParseSNBT implements ParentCheck<ParseSNBT.Item> {
 	final String name = "Parse SNBT";
 	final List<ChildCheck<ParseSNBT.Item>> children = List.of(
 		new CheckEnchantLevel(),
-		new CheckDataVersion()
+		new CheckDataVersion(),
+		new CheckEnrichment()
 	);
 
 	@Override

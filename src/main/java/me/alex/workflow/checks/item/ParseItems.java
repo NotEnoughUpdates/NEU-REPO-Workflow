@@ -29,7 +29,8 @@ public class ParseItems implements ParentCheck<ParseItems.Item> {
 //		new CheckHeadTexture(),
 		new CheckItemModel(),
 		new CheckItemRecipes(),
-		new CheckEnchantLevel()
+		new CheckEnchantLevel(),
+		new CheckEnrichment()
 	);
 
 
