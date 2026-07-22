@@ -1,7 +1,6 @@
 name: Build Distribution
 on:
-    push:
-        branches: [ master ]
+    workflow_dispatch:
 
 permissions:
     contents: write
@@ -39,7 +38,7 @@ jobs:
                     cd build/install/Workflow
                     git init
                     git add .
-                    git commit -m "Update dist from ${{ github.sha }}"
+                    git commit -m "Built distribution from ${{ github.sha }}"
                     git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
                     git push --force origin HEAD:dist
                 shell: bash
