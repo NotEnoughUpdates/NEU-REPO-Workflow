@@ -1,5 +1,6 @@
 package me.alex.workflow.checks.item;
 
+import me.alex.workflow.checks.CheckData;
 import me.alex.workflow.checks.ChildCheck;
 import net.minecraft.nbt.CompoundTag;
 
@@ -12,7 +13,8 @@ public class CheckEnrichment implements ChildCheck<ParseItems.Item> {
 	}
 
 	@Override
-	public boolean checkData(ParseItems.Item data) {
+	public boolean checkData(CheckData<ParseItems.Item> checkData) {
+		var data = checkData.data();
 		CompoundTag extraAttributes = data.nbtTag().getCompoundOrEmpty("ExtraAttributes");
 		boolean hasNbtEnrichment = !extraAttributes.getStringOr("talisman_enrichment", "").isEmpty();
 

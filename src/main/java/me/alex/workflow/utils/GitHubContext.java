@@ -17,6 +17,7 @@ import static me.alex.workflow.Main.LOGGER;
 public final class GitHubContext {
 	public static final @Nullable String EVENT_NAME = System.getenv("GITHUB_EVENT_NAME");
 	public static final @Nullable String EVENT_PATH = System.getenv("GITHUB_EVENT_PATH");
+	public static final @Nullable String STEP_SUMMARY = System.getenv("GITHUB_STEP_SUMMARY");
 
 	//region PR Specific Variables
 	public static @Nullable String SHA;

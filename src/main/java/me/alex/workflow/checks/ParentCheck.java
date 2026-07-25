@@ -19,7 +19,7 @@ public interface ParentCheck<T> extends AbstractCheck {
 
 		boolean res = true;
 		for (ChildCheck<T> childCheck : getChildren()) {
-			boolean bl = childCheck.checkData(data);
+			boolean bl = childCheck.checkData(new CheckData<>(file, data));
 			res &= bl;
 			if (!bl) {
 				LOGGER.error("Check {}/{} failed for {}!", this.getName(), childCheck.getName(), file.getName());

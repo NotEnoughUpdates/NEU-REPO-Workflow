@@ -13,5 +13,5 @@ public interface ChildCheck<T> extends AbstractCheck {
 		throw new RuntimeException();
 	}
 
-	boolean checkData(T data);
+	boolean checkData(CheckData<T> data);
 }

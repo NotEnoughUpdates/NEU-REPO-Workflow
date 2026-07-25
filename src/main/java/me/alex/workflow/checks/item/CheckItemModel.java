@@ -1,5 +1,6 @@
 package me.alex.workflow.checks.item;
 
+import me.alex.workflow.checks.CheckData;
 import me.alex.workflow.checks.ChildCheck;
 import me.alex.workflow.checks.ParseSNBT;
 import me.alex.workflow.utils.Items;
@@ -8,8 +9,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.Objects;
-
-import static me.alex.workflow.Main.LOGGER;
 
 public class CheckItemModel implements ChildCheck<ParseItems.Item> {
 	final String name = "Check Item Model";
@@ -26,7 +25,8 @@ public class CheckItemModel implements ChildCheck<ParseItems.Item> {
 	}
 
 	@Override
-	public boolean checkData(ParseItems.Item data) {
+	public boolean checkData(CheckData<ParseItems.Item> checkData) {
+		var data = checkData.data();
 		String nbtItemModel = data.nbtTag().getStringOr("ItemModel", null);
 		if (nbtItemModel == null) return true;
 
@@ -38,7 +38,8 @@ public class CheckItemModel implements ChildCheck<ParseItems.Item> {
 		if (snbtItemModel == null) return true;
 
 		boolean bl = Objects.equals(nbtItemModel, snbtItemModel);
-		if (!bl) LOGGER.error("Item {} has different item models: {} (NBT) vs {} (SNBT)", data.internalName(), nbtItemModel, snbtItemModel);
+		if (!bl) logFileIssue(checkData.file(), "NBT Model (%s) does not match SNBT Model (%s)"
+			.formatted(nbtItemModel, snbtItemModel));
 		return bl;
 	}
 }

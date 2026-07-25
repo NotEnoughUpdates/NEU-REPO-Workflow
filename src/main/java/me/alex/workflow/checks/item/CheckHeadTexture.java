@@ -1,5 +1,6 @@
 package me.alex.workflow.checks.item;
 
+import me.alex.workflow.checks.CheckData;
 import me.alex.workflow.checks.ChildCheck;
 import me.alex.workflow.checks.ParseSNBT;
 import me.alex.workflow.utils.Items;
@@ -25,7 +26,8 @@ public class CheckHeadTexture implements ChildCheck<ParseItems.Item> {
 	}
 
 	@Override
-	public boolean checkData(ParseItems.Item data) {
+	public boolean checkData(CheckData<ParseItems.Item> checkData) {
+		var data = checkData.data();
 		if (!data.itemId().equals("minecraft:skull") || data.damage() != 3) return true;
 		ListTag nbtTexturesList = data.nbtTag().getCompoundOrEmpty("SkullOwner")
 			.getCompoundOrEmpty("Properties")

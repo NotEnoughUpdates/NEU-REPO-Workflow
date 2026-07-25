@@ -1,5 +1,6 @@
 package me.alex.workflow.checks.item;
 
+import me.alex.workflow.checks.CheckData;
 import me.alex.workflow.checks.ChildCheck;
 import net.minecraft.nbt.CompoundTag;
 
@@ -14,7 +15,8 @@ public class CheckEnchantLevel implements ChildCheck<ParseItems.Item> {
 	}
 
 	@Override
-	public boolean checkData(ParseItems.Item data) {
+	public boolean checkData(CheckData<ParseItems.Item> checkData) {
+		var data = checkData.data();
 		if (!data.itemId().equals("minecraft:enchanted_book")) return true;
 		if (!data.internalName().contains(";")) return true;
 		String[] parts = data.internalName().split(";", 2);

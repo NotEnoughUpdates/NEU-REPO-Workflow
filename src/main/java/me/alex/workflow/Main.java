@@ -7,6 +7,7 @@ import me.alex.workflow.checks.ParseSNBT;
 import me.alex.workflow.checks.RedundantSNBT;
 import me.alex.workflow.checks.item.ParseItems;
 import me.alex.workflow.utils.ChangedFiles;
+import me.alex.workflow.utils.CheckSummary;
 import me.alex.workflow.utils.Items;
 import net.minecraft.SharedConstants;
 import org.slf4j.Logger;
@@ -73,6 +74,7 @@ public final class Main {
 		LOGGER.info("Starting checks...");
 		checkFiles();
 		LOGGER.info("Done checking!");
+		CheckSummary.addSummary();
 		if (ERRORS_DETECTED.get()) System.exit(1);
 	}
 }

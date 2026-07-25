@@ -1,5 +1,6 @@
 package me.alex.workflow.checks.snbt;
 
+import me.alex.workflow.checks.CheckData;
 import me.alex.workflow.checks.ChildCheck;
 import me.alex.workflow.checks.ParseSNBT;
 import net.minecraft.nbt.CompoundTag;
@@ -16,7 +17,8 @@ public class CheckEnchantLevel implements ChildCheck<ParseSNBT.Item> {
 
 	@SuppressWarnings("DuplicatedCode")
 	@Override
-	public boolean checkData(ParseSNBT.Item data) {
+	public boolean checkData(CheckData<ParseSNBT.Item> checkData) {
+		var data = checkData.data();
 		if (!data.tag().getStringOr("id", "").equals("minecraft:enchanted_book")) return true;
 		if (!data.internalName().contains(";")) return true;
 		String[] parts = data.internalName().split(";", 2);
