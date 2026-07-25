@@ -1,5 +1,6 @@
 package me.alex.workflow.checks;
 
+import me.alex.workflow.utils.CheckSummary;
 import org.jspecify.annotations.Nullable;
 
 import java.io.File;
@@ -15,16 +16,30 @@ public interface ParentCheck<T> extends AbstractCheck {
 	@Override
 	default boolean checkFile(File file) {
 		T data = parseFile(file);
-		if (data == null) return false;
+		if (data == null) {
+			logFileIssue(file, "Failed to parse!");
+			return false;
+		}
 
 		boolean res = true;
 		for (ChildCheck<T> childCheck : getChildren()) {
 			boolean bl = childCheck.checkData(new CheckData<>(file, data));
 			res &= bl;
 			if (!bl) {
-				LOGGER.error("Check {}/{} failed for {}!", this.getName(), childCheck.getName(), file.getName());
+				logFileIssue(file, childCheck.getName(), "Check failed!");
 			}
 		}
 		return res;
+	}
+
+	default void logFileIssue(File file, String childName, String issue) {
+		String name = "%s/%s".formatted(getName(), childName);
+		LOGGER.error("Check {}: {}", name, issue);
+		CheckSummary.addFileIssue(file, name, issue);
+	}
+
+	@Override
+	default boolean logOnFailure() {
+		return false;
 	}
 }

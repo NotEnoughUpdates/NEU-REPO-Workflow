@@ -15,12 +15,17 @@ public interface AbstractCheck {
 
 	boolean checkFile(File file);
 
+	default boolean logOnFailure() {
+		return true;
+	}
+
 	default boolean checkFiles(List<File> files) {
 		boolean res = true;
+		boolean shouldLogFailure = logOnFailure();
 		for (File file : files) {
 			LOGGER.debug("{}: Checking file {}", this.getClass().getSimpleName(), file.getName());
 			boolean bl = checkFile(file);
-			if (!bl) {
+			if (!bl && shouldLogFailure) {
 				logFileIssue(file, "Check failed!");
 			}
 			res &= bl;
@@ -29,7 +34,7 @@ public interface AbstractCheck {
 	}
 
 	default void logFileIssue(File file, String issue) {
-		LOGGER.error("{}: {}", getName(), issue);
+		LOGGER.error("Check {}: {}", getName(), issue);
 		CheckSummary.addFileIssue(file, getName(), issue);
 	}
 }
