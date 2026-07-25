@@ -7,8 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import java.util.List;
 import java.util.Objects;
 
-import static me.alex.workflow.Main.LOGGER;
-
 public class CheckNbtDisplay implements ChildCheck<ParseItems.Item> {
 	final String name = "Check NBT Display";
 
@@ -25,11 +23,11 @@ public class CheckNbtDisplay implements ChildCheck<ParseItems.Item> {
 		List<String> lore = Objects.requireNonNull(display.get("Lore")).asList().orElseThrow()
 			.stream().map(tag -> tag.asString().orElseThrow()).toList();
 		if (!displayName.equals(data.displayName())) {
-			LOGGER.error("JSON display name does not match NBT Tag display name!");
+			logFileIssue(checkData.file(), "JSON display name does not match NBT Tag display name!");
 			return false;
 		}
 		if (!lore.equals(data.lore())) {
-			LOGGER.error("JSON lore does not match NBT Tag lore!");
+			logFileIssue(checkData.file(), "JSON lore does not match NBT Tag lore!");
 			return false;
 		}
 		return true;

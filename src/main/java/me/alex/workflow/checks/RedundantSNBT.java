@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static me.alex.workflow.Main.LOGGER;
-
 public class RedundantSNBT implements AbstractCheck {
 	final String name = "Redundant SNBT";
 	Map<String, @Nullable Integer> latestOverlays = new Object2IntOpenHashMap<>();
@@ -37,8 +35,7 @@ public class RedundantSNBT implements AbstractCheck {
 		} else if (thisVersion != value) {
 			int newest = Math.max(thisVersion, value);
 			int oldest = Math.min(thisVersion, value);
-			LOGGER.error("{}: File {} has outdated SNBT version {} (Newest: {})",
-				getName(), file.getName(), oldest, newest);
+			logFileIssue(file, "Outdated SNBT version %s (Newest: %s)".formatted(oldest, newest));
 			latestOverlays.put(file.getName(), newest);
 			return false;
 		}

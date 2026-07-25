@@ -7,7 +7,7 @@ import me.alex.workflow.utils.Items;
 import me.alex.workflow.utils.recipe.LegacyRecipe;
 import me.alex.workflow.utils.recipe.Recipe;
 
-import static me.alex.workflow.Main.LOGGER;
+import java.io.File;
 
 public class CheckItemRecipes implements ChildCheck<ParseItems.Item> {
 	final String name = "Check Item Recipes";
@@ -17,11 +17,11 @@ public class CheckItemRecipes implements ChildCheck<ParseItems.Item> {
 		return name;
 	}
 
-	public static boolean checkItemExists(String recipeItem) {
+	public boolean checkItemExists(File file, String recipeItem) {
 		String itemId = recipeItem.split(":")[0];
 		if (itemId.equals("SKYBLOCK_COIN")) return true;
 		boolean bl = Items.ITEMS.contains(itemId);
-		if (!bl) LOGGER.error("Item {} in recipe does not exist!", itemId);
+		if (!bl) logFileIssue(file, "Item %s in recipe does not exist!".formatted(itemId));
 		return bl;
 	}
 
@@ -35,7 +35,7 @@ public class CheckItemRecipes implements ChildCheck<ParseItems.Item> {
 				return false;
 			}
 			var inputError = recipe.getOrThrow().getInputs().stream().filter(s -> !s.isEmpty())
-				.map(CheckItemRecipes::checkItemExists).filter(bl -> !bl).findFirst();
+				.map(s -> checkItemExists(checkData.file(), s)).filter(bl -> !bl).findFirst();
 			if (inputError.isPresent()) return false;
 		}
 
@@ -49,18 +49,12 @@ public class CheckItemRecipes implements ChildCheck<ParseItems.Item> {
 				}
 				Recipe recipe = result.getOrThrow();
 				var inputError = recipe.getInputs().stream().filter(s -> !s.isEmpty())
-					.map(CheckItemRecipes::checkItemExists).filter(bl -> !bl).findFirst();
-				if (inputError.isPresent()) {
-					logFileIssue(checkData.file(), "An input item could not be found!");
-					return false;
-				}
+					.map(s -> checkItemExists(checkData.file(), s)).filter(bl -> !bl).findFirst();
+				if (inputError.isPresent()) return false;
 
-				var outputError = recipe.getOutputs().stream().map(CheckItemRecipes::checkItemExists)
+				var outputError = recipe.getOutputs().stream().map(s -> checkItemExists(checkData.file(), s))
 					.filter(bl -> !bl).findFirst();
-				if (outputError.isPresent()) {
-					logFileIssue(checkData.file(), "An output item could not be found!");
-					return false;
-				}
+				if (outputError.isPresent()) return false;
 			}
 		}
 
