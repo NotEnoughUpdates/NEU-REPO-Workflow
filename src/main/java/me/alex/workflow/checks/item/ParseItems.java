@@ -26,6 +26,7 @@ public class ParseItems implements ParentCheck<ParseItems.Item> {
 
 	final List<ChildCheck<ParseItems.Item>> children = List.of(
 		new CheckNbtDisplay(),
+		new CheckNbtId(),
 //		new CheckHeadTexture(),
 		new CheckItemModel(),
 		new CheckItemRecipes(),
