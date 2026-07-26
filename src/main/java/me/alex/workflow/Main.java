@@ -9,7 +9,6 @@ import me.alex.workflow.checks.item.ParseItems;
 import me.alex.workflow.utils.ChangedFiles;
 import me.alex.workflow.utils.CheckSummary;
 import me.alex.workflow.utils.Items;
-import net.minecraft.SharedConstants;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -66,9 +65,6 @@ public final class Main {
 
 	static void main() {
 		LOGGER.info("Initializing...");
-		SharedConstants.tryDetectVersion();
-//		Bootstrap.bootStrap();
-		LOGGER.info("Initializing utils...");
 		Items.init();
 		LOGGER.info("Done initializing!");
 		LOGGER.info("Starting checks...");
