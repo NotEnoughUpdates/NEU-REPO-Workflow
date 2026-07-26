@@ -24,6 +24,7 @@ public final class CheckSummary {
 
 	public static void addSummary() {
 		if (GitHubContext.STEP_SUMMARY == null) return;
+		if (FILE_ISSUES.isEmpty()) return;
 		LOGGER.info("Writing check summary...");
 
 		File file = new File(GitHubContext.STEP_SUMMARY);
@@ -37,9 +38,11 @@ public final class CheckSummary {
 			PrintWriter writer = new PrintWriter(stream, false, StandardCharsets.UTF_8);
 			writeIssues(writer);
 			writer.flush();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		} catch (IOException ex) {
+			LOGGER.error("Failed to write check summary!", ex);
 		}
+
+		LOGGER.info("Done writing check summary!");
 	}
 
 	public static void writeIssues(PrintWriter writer) {
