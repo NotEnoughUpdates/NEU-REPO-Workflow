@@ -1,20 +1,16 @@
 package me.alex.workflow.checks.item;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.alex.workflow.checks.ChildCheck;
 import me.alex.workflow.checks.ParentCheck;
+import me.alex.workflow.utils.FileUtils;
 import me.alex.workflow.utils.NbtHelper;
 import net.minecraft.nbt.CompoundTag;
 import org.jspecify.annotations.Nullable;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -50,9 +46,7 @@ public class ParseItems implements ParentCheck<ParseItems.Item> {
 	public @Nullable Item parseFile(File file) {
 		Item data;
 		try {
-			BufferedReader reader = Files.newBufferedReader(file.toPath());
-			JsonElement jsonElement = JsonParser.parseReader(reader);
-			data = Item.CODEC.parse(JsonOps.INSTANCE, jsonElement).getOrThrow();
+			data = FileUtils.readJsonFile(file, Item.CODEC);
 		} catch (Exception ex) {
 			LOGGER.error("Failed to load item file {}", file.getName(), ex);
 			return null;

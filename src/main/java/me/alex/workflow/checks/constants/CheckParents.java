@@ -1,17 +1,13 @@
 package me.alex.workflow.checks.constants;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import de.hysky.skyblocker.utils.CodecUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import me.alex.workflow.checks.AbstractCheck;
+import me.alex.workflow.utils.FileUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -33,9 +29,7 @@ public class CheckParents implements AbstractCheck {
 	public boolean checkFile(File file) {
 		Object2ObjectMap<String, List<String>> parents;
 		try {
-			BufferedReader reader = Files.newBufferedReader(file.toPath());
-			JsonElement jsonElement = JsonParser.parseReader(reader);
-			parents = CODEC.parse(JsonOps.INSTANCE, jsonElement).getOrThrow();
+			parents = FileUtils.readJsonFile(file, CODEC);
 		} catch (Exception ex) {
 			logFileIssue(file, "Failed to parse file: " + ex.getMessage());
 			return false;

@@ -1,10 +1,9 @@
 package me.alex.workflow.checks;
 
-import com.google.gson.JsonParser;
+import com.mojang.serialization.Codec;
+import me.alex.workflow.utils.FileUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -26,8 +25,7 @@ public final class ParseJSON implements AbstractCheck {
 	@Override
 	public boolean checkFile(File file) {
 		try {
-			BufferedReader reader = Files.newBufferedReader(file.toPath());
-			JsonParser.parseReader(reader);
+			FileUtils.readJsonFile(file, Codec.PASSTHROUGH);
 		} catch (Exception ex) {
 			LOGGER.error("Failed to read JSON File: {}", file.getName(), ex);
 			return false;
