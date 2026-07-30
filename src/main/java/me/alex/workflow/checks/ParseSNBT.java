@@ -1,9 +1,6 @@
 package me.alex.workflow.checks;
 
-import me.alex.workflow.checks.snbt.CheckDataVersion;
-import me.alex.workflow.checks.snbt.CheckEnchantLevel;
-import me.alex.workflow.checks.snbt.CheckEnrichment;
-import me.alex.workflow.checks.snbt.CheckProhibitedSnbt;
+import me.alex.workflow.checks.snbt.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import org.jspecify.annotations.Nullable;
@@ -24,7 +21,8 @@ public final class ParseSNBT implements ParentCheck<ParseSNBT.Item> {
 		new CheckEnchantLevel(),
 		new CheckDataVersion(),
 		new CheckEnrichment(),
-		new CheckProhibitedSnbt()
+		new CheckProhibitedSnbt(),
+		new CheckItemExists()
 	);
 
 	@Override
