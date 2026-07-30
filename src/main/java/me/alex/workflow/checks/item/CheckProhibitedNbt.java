@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public class CheckProhibitedNbt implements ChildCheck<ParseItems.Item> {
-	public static final List<String> prohibitedKeys = List.of("timestamp", "uuid");
+	public static final List<String> prohibitedKeys = List.of("timestamp", "uuid", "winning_bid");
 
 	final String name = "Prohibited NBT";
 
