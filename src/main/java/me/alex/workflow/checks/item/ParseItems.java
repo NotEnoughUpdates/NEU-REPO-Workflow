@@ -28,7 +28,8 @@ public class ParseItems implements ParentCheck<ParseItems.Item> {
 		new CheckItemRecipes(),
 		new CheckEnchantLevel(),
 		new CheckEnrichment(),
-		new CheckProhibitedNbt()
+		new CheckProhibitedNbt(),
+		new CheckInternalName()
 	);
 
 
