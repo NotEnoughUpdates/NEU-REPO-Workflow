@@ -38,8 +38,9 @@ public class CheckItemModel implements ChildCheck<ParseItems.Item> {
 		if (snbtItemModel == null) return true;
 
 		boolean bl = Objects.equals(nbtItemModel, snbtItemModel);
-		if (!bl) logFileIssue(checkData.file(), "NBT Model (%s) does not match SNBT Model (%s)"
-			.formatted(nbtItemModel, snbtItemModel));
+		if (!bl) logFileIssue(checkData.file(), "NBT Model does not match SNBT Model.",
+			"NBT Model: `%s`".formatted(nbtItemModel),
+			"SNBT Model: `%s`".formatted(snbtItemModel));
 		return bl;
 	}
 }

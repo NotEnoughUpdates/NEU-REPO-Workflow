@@ -33,8 +33,8 @@ public interface AbstractCheck {
 		return res;
 	}
 
-	default void logFileIssue(File file, String issue) {
+	default void logFileIssue(File file, String issue, String... details) {
 		LOGGER.error("Check {}: {}", getName(), issue);
-		CheckSummary.addFileIssue(file, getName(), issue);
+		CheckSummary.addFileIssue(file, getName(), issue, details);
 	}
 }

@@ -14,10 +14,10 @@ import static me.alex.workflow.Main.REPO_BASE_PATH;
 public final class CheckSummary {
 	private static final Object2ObjectOpenHashMap<Path, List<FileIssue>> FILE_ISSUES = new Object2ObjectOpenHashMap<>();
 
-	public static void addFileIssue(File file, String checkName, String issue) {
+	public static void addFileIssue(File file, String checkName, String issue, String... details) {
 		FILE_ISSUES.compute(file.toPath(), (k, v) -> {
 			if (v == null) v = new ArrayList<>();
-			v.add(new FileIssue(checkName, issue));
+			v.add(new FileIssue(checkName, issue, details));
 			return v;
 		});
 	}
@@ -53,11 +53,14 @@ public final class CheckSummary {
 			writer.println("## %s".formatted(relativePath));
 			for (FileIssue issue : issues) {
 				writer.println("* %s (%s)".formatted(issue.text, issue.check));
+				for (String detail : issue.details) {
+					writer.println("  * %s".formatted(detail));
+				}
 			}
 			writer.write('\n');
 		});
 	}
 
-	private record FileIssue(String check, String text) {
+	private record FileIssue(String check, String text, String[] details) {
 	}
 }

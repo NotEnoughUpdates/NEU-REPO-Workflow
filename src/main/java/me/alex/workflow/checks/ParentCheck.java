@@ -26,16 +26,16 @@ public interface ParentCheck<T> extends AbstractCheck {
 			boolean bl = childCheck.checkData(new CheckData<>(file, data));
 			res &= bl;
 			if (!bl) {
-				logFileIssue(file, childCheck.getName(), "Check failed!");
+				logChildFileIssue(file, childCheck.getName(), "Check failed!");
 			}
 		}
 		return res;
 	}
 
-	default void logFileIssue(File file, String childName, String issue) {
+	default void logChildFileIssue(File file, String childName, String issue, String... details) {
 		String name = "%s/%s".formatted(getName(), childName);
 		LOGGER.error("Check {}: {}", name, issue);
-		CheckSummary.addFileIssue(file, name, issue);
+		CheckSummary.addFileIssue(file, name, issue, details);
 	}
 
 	@Override
