@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.hysky.skyblocker.utils.CodecUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import me.alex.workflow.checks.AbstractCheck;
 import me.alex.workflow.checks.item.ParseItems;
@@ -28,8 +29,8 @@ public class CheckPetNums implements AbstractCheck {
 	private static final Pattern LORE_PET_NUMBER = Pattern.compile("\\{([0-9A-Z_]+)}");
 
 	final String name = "Pet Numbers";
-	Object2ObjectMap<String, Object2ObjectMap<String, @Nullable RarityNums>> petNums;
-	Set<String> validPets;
+	Object2ObjectMap<String, Object2ObjectMap<String, @Nullable RarityNums>> petNums = new Object2ObjectOpenHashMap<>();
+	Set<String> validPets = new ObjectOpenHashSet<>();
 
 	@Override
 	public String getName() {
@@ -71,6 +72,7 @@ public class CheckPetNums implements AbstractCheck {
 		RarityNums nums = petNums.get(petName).get(rarity);
 		if (nums == null) {
 			logFileIssue(file, "No pet nums found for rarity %s".formatted(rarity));
+			return false;
 		}
 
 		Set<String> petNumKeys = new ObjectOpenHashSet<>();
@@ -133,11 +135,11 @@ public class CheckPetNums implements AbstractCheck {
 		return isValid;
 	}
 
-	Codec<Object2ObjectMap<String, Object2ObjectMap<String, RarityNums>>> FILE_CODEC =
+	static final Codec<Object2ObjectMap<String, Object2ObjectMap<String, RarityNums>>> FILE_CODEC =
 		CodecUtils.object2ObjectMapCodec(Codec.STRING, CodecUtils.object2ObjectMapCodec(Codec.STRING, RarityNums.CODEC));
 
 	record RarityNums(LevelNums ONE, LevelNums ONE_HUNDRED, Optional<String> statsLevellingCurve) {
-		public static Codec<RarityNums> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+		public static final Codec<RarityNums> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			LevelNums.CODEC.fieldOf("1").forGetter(RarityNums::ONE),
 			LevelNums.CODEC.fieldOf("100").forGetter(RarityNums::ONE_HUNDRED),
 			Codec.STRING.optionalFieldOf("stats_levelling_curve").forGetter(RarityNums::statsLevellingCurve)
@@ -145,7 +147,7 @@ public class CheckPetNums implements AbstractCheck {
 	}
 
 	record LevelNums(List<Double> otherNums, Object2ObjectMap<String, Double> statNums) {
-		public static Codec<LevelNums> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+		public static final Codec<LevelNums> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Codec.DOUBLE.listOf().fieldOf("otherNums").forGetter(LevelNums::otherNums),
 			CodecUtils.object2ObjectMapCodec(Codec.STRING, Codec.DOUBLE).fieldOf("statNums").forGetter(LevelNums::statNums)
 		).apply(instance, LevelNums::new));

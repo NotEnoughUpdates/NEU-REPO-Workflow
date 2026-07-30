@@ -15,7 +15,7 @@ public final class CheckSummary {
 	private static final Object2ObjectOpenHashMap<Path, List<FileIssue>> FILE_ISSUES = new Object2ObjectOpenHashMap<>();
 
 	public static void addFileIssue(File file, String checkName, String issue, String... details) {
-		FILE_ISSUES.compute(file.toPath(), (k, v) -> {
+		FILE_ISSUES.compute(file.toPath(), (_, v) -> {
 			if (v == null) v = new ArrayList<>();
 			v.add(new FileIssue(checkName, issue, details));
 			return v;
@@ -29,6 +29,7 @@ public final class CheckSummary {
 
 		File file = new File(GitHubContext.STEP_SUMMARY);
 		try {
+			//noinspection ResultOfMethodCallIgnored
 			file.createNewFile();
 		} catch (IOException ex) {
 			LOGGER.error("Failed to create summary file", ex);

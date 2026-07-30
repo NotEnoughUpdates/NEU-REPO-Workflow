@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class RedundantSNBT implements AbstractCheck {
 	final String name = "Redundant SNBT";
-	Map<String, @Nullable Integer> latestOverlays = new Object2IntOpenHashMap<>();
+	final Map<String, @Nullable Integer> latestOverlays = new Object2IntOpenHashMap<>();
 
 	@Override
 	public String getName() {

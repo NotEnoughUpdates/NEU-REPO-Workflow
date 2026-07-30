@@ -30,7 +30,7 @@ public final class Main {
 
 	public static final AtomicBoolean ERRORS_DETECTED = new AtomicBoolean(false);
 
-	static AbstractCheck[] CHECKS = new AbstractCheck[]{
+	static final AbstractCheck[] CHECKS = new AbstractCheck[]{
 		new ParseSNBT(),
 		new ParseJSON(),
 		new ParseItems(),
