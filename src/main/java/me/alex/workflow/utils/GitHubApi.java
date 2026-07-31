@@ -41,6 +41,7 @@ public final class GitHubApi {
 	private static List<PaginatableResponse> handlePagination(
 		String name, Supplier<@Nullable PaginatableResponse> initial, Function<String, @Nullable PaginatableResponse> nextHandler
 	) {
+		LOGGER.info("Getting {} page #1", name);
 		PaginatableResponse initialResponse = initial.get();
 		if (initialResponse == null) return List.of();
 		if (initialResponse.nextLink == null) return List.of(initialResponse);
