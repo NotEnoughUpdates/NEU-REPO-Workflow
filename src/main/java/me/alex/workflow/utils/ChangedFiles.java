@@ -28,7 +28,7 @@ public final class ChangedFiles {
 	private static List<File> getPrFiles(@Nullable String org, @Nullable String repo, @Nullable Integer prNum) {
 		if (org == null || repo == null || prNum == null) return List.of();
 		List<String> files = GitHubApi.getChangedFiles(org, repo, prNum);
-		return files.stream().map(REPO_BASE_PATH::resolve).map(Path::toFile).toList();
+		return files.stream().map(REPO_BASE_PATH::resolve).map(Path::toFile).filter(File::exists).toList();
 	}
 
 	public static List<File> getChangedFiles() {
