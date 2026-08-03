@@ -5,6 +5,7 @@ import me.alex.workflow.checks.AbstractCheck;
 import me.alex.workflow.checks.ParseJSON;
 import me.alex.workflow.checks.ParseSNBT;
 import me.alex.workflow.checks.RedundantSNBT;
+import me.alex.workflow.checks.constants.CheckAttributes;
 import me.alex.workflow.checks.constants.CheckParents;
 import me.alex.workflow.checks.constants.CheckPetNums;
 import me.alex.workflow.checks.item.ParseItems;
@@ -37,6 +38,7 @@ public final class Main {
 		new RedundantSNBT(),
 		new CheckParents(),
 		new CheckPetNums(),
+		new CheckAttributes(),
 	};
 
 	static boolean fileMatches(File file, List<Pattern> patterns) {
