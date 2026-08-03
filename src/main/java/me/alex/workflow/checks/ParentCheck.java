@@ -34,7 +34,7 @@ public interface ParentCheck<T> extends AbstractCheck {
 
 	default void logChildFileIssue(File file, String childName, String issue, String... details) {
 		String name = "%s/%s".formatted(getName(), childName);
-		LOGGER.error("Check {}: {}", name, issue);
+		LOGGER.error("Check {} - {}: {}", name, file.toPath().getFileName(), issue);
 		CheckSummary.addFileIssue(file, name, issue, details);
 	}
 

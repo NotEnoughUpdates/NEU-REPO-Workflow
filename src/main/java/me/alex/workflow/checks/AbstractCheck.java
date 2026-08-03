@@ -34,7 +34,7 @@ public interface AbstractCheck {
 	}
 
 	default void logFileIssue(File file, String issue, String... details) {
-		LOGGER.error("Check {}: {}", getName(), issue);
+		LOGGER.error("Check {} - {}: {}", getName(), file.toPath().getFileName(), issue);
 		CheckSummary.addFileIssue(file, getName(), issue, details);
 	}
 }
