@@ -65,7 +65,7 @@ public class CheckAttributes implements AbstractCheck {
 			Codec.STRING.fieldOf("internalName").forGetter(Attribute::internalName),
 			Codec.STRING.fieldOf("abilityName").forGetter(Attribute::abilityName),
 			Codec.STRING.fieldOf("alignment").forGetter(Attribute::alignment),
-			Codec.STRING.listOf().fieldOf("family").forGetter(Attribute::family),
+			Codec.STRING.listOf().optionalFieldOf("family", List.of()).forGetter(Attribute::family),
 			Codec.STRING.fieldOf("shardId").forGetter(Attribute::shardId)
 		).apply(instance, Attribute::new));
 		public static final Codec<List<Attribute>> LIST_CODEC = CODEC.listOf();
