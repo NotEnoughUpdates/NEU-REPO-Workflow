@@ -37,14 +37,20 @@ public class CheckBazaarStocks implements AbstractCheck {
 		List<String> missingItems = new ArrayList<>();
 		boolean isValid = true;
 		for (BazaarStock stock : stocks) {
-			if (!Items.ITEMS.contains(stock.internalName)) {
+			boolean isMissing = !Items.ITEMS.contains(stock.internalName);
+			if (isMissing && stock.internalName.contains(";")) {
+				String levelOne = stock.internalName.replaceFirst(";.*", ";1");
+				if (Items.ITEMS.contains(levelOne)) isMissing = false;
+			}
+
+			if (isMissing) {
 				missingItems.add(stock.internalName);
 				isValid = false;
 			}
 		}
 
 		if (!missingItems.isEmpty()) {
-			logFileIssue(file, "Unknown Items", missingItems.toArray(new String[0]));
+			logFileIssue(file, "Unknown items found", missingItems.toArray(new String[0]));
 		}
 
 		return isValid;
