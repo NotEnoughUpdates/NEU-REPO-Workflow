@@ -22,7 +22,8 @@ public final class ParseSNBT implements ParentCheck<ParseSNBT.Item> {
 		new CheckDataVersion(),
 		new CheckEnrichment(),
 		new CheckProhibitedSnbt(),
-		new CheckItemExists()
+		new CheckItemExists(),
+		new CheckSnbtId()
 	);
 
 	@Override
