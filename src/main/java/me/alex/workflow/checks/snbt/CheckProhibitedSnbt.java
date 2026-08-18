@@ -23,8 +23,8 @@ public class CheckProhibitedSnbt implements ChildCheck<ParseSNBT.Item> {
 			.getCompoundOrEmpty("minecraft:custom_data");
 		Set<String> nbtKeys = data.keySet();
 		boolean success = true;
-		for (String key : CheckProhibitedNbt.prohibitedKeys) {
-			if (nbtKeys.contains(key)) {
+		for (String key : nbtKeys) {
+			if (CheckProhibitedNbt.prohibitedKeys.contains(key)) {
 				logFileIssue(checkData.file(), "Custom Data contains prohibited key: %s".formatted(key));
 				success = false;
 			}

@@ -3,11 +3,13 @@ package me.alex.workflow.checks.item;
 import me.alex.workflow.checks.CheckData;
 import me.alex.workflow.checks.ChildCheck;
 
-import java.util.List;
 import java.util.Set;
 
 public class CheckProhibitedNbt implements ChildCheck<ParseItems.Item> {
-	public static final List<String> prohibitedKeys = List.of("timestamp", "uuid", "winning_bid");
+	public static final Set<String> prohibitedKeys = Set.of(
+		"timestamp", "uuid", "winning_bid",
+		"blood_god_kills"
+	);
 
 	final String name = "Prohibited NBT";
 
@@ -18,10 +20,10 @@ public class CheckProhibitedNbt implements ChildCheck<ParseItems.Item> {
 
 	@Override
 	public boolean checkData(CheckData<ParseItems.Item> checkData) {
-		Set<String> nbtKeys = checkData.data().nbtTag().keySet();
+		Set<String> nbtKeys = checkData.data().nbtTag().getCompoundOrEmpty("ExtraAttributes").keySet();
 		boolean success = true;
-		for (String key : prohibitedKeys) {
-			if (nbtKeys.contains(key)) {
+		for (String key : nbtKeys) {
+			if (prohibitedKeys.contains(key)) {
 				logFileIssue(checkData.file(), "NBT Tag contains prohibited key: %s".formatted(key));
 				success = false;
 			}
