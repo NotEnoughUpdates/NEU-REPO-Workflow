@@ -9,6 +9,7 @@ import me.alex.workflow.checks.constants.CheckAttributes;
 import me.alex.workflow.checks.constants.CheckBazaarStocks;
 import me.alex.workflow.checks.constants.CheckParents;
 import me.alex.workflow.checks.constants.CheckPetNums;
+import me.alex.workflow.checks.constants.CheckSacks;
 import me.alex.workflow.checks.item.ParseItems;
 import me.alex.workflow.utils.ChangedFiles;
 import me.alex.workflow.utils.CheckSummary;
@@ -41,6 +42,7 @@ public final class Main {
 		new CheckPetNums(),
 		new CheckAttributes(),
 		new CheckBazaarStocks(),
+		new CheckSacks(),
 	};
 
 	static boolean fileMatches(File file, List<Pattern> patterns) {
