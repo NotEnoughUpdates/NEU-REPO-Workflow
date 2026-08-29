@@ -8,6 +8,8 @@ import me.alex.workflow.utils.recipe.LegacyRecipe;
 import me.alex.workflow.utils.recipe.Recipe;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CheckItemRecipes implements ChildCheck<ParseItems.Item> {
 	final String name = "Check Item Recipes";
@@ -41,6 +43,7 @@ public class CheckItemRecipes implements ChildCheck<ParseItems.Item> {
 
 		if (data.recipes().isPresent()) {
 			var recipes = data.recipes().get();
+			Set<Integer> knownRecipes = new HashSet<>();
 			for (var recipeDynamic : recipes) {
 				DataResult<? extends Recipe> result = Recipe.RECIPE_DISPATCH.parse(recipeDynamic);
 				if (result.error().isPresent()) {
@@ -48,6 +51,12 @@ public class CheckItemRecipes implements ChildCheck<ParseItems.Item> {
 					return false;
 				}
 				Recipe recipe = result.getOrThrow();
+				var inserted = knownRecipes.add(recipe.hashCode());
+				if (!inserted) {
+					logFileIssue(checkData.file(), "Contains duplicate recipe: %s".formatted(recipe.toString()));
+					return false;
+				}
+
 				var inputError = recipe.getInputs().stream().filter(s -> !s.isEmpty())
 					.map(s -> checkItemExists(checkData.file(), s)).filter(bl -> !bl).findFirst();
 				if (inputError.isPresent()) return false;

@@ -7,10 +7,13 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
-public record MobDropRecipe(List<MobDropRecipe.Drop> drops) implements Recipe {
+public record MobDropRecipe(String name, Optional<Integer> level, List<MobDropRecipe.Drop> drops) implements Recipe {
 	public static final MapCodec<MobDropRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+		Codec.STRING.fieldOf("name").forGetter(MobDropRecipe::name),
+		Codec.INT.optionalFieldOf("level").forGetter(MobDropRecipe::level),
 		Drop.CODEC.listOf().fieldOf("drops").forGetter(MobDropRecipe::drops)
 	).apply(instance, MobDropRecipe::new));
 
