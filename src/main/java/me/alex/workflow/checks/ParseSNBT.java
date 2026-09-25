@@ -23,7 +23,8 @@ public final class ParseSNBT implements ParentCheck<ParseSNBT.Item> {
 		new CheckEnrichment(),
 		new CheckProhibitedSnbt(),
 		new CheckItemExists(),
-		new CheckSnbtId()
+		new CheckSnbtId(),
+		new CheckColor()
 	);
 
 	@Override
