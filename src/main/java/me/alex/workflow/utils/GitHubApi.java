@@ -26,6 +26,9 @@ public final class GitHubApi {
 		.connectTimeout(Duration.ofSeconds(10))
 		.executor(Executors.newVirtualThreadPerTaskExecutor())
 		.build();
+	private static final @Nullable String GITHUB_TOKEN = System.getenv("GITHUB_TOKEN");
+
+	private static final String GITHUB_API_VERSION = "2026-03-10";
 
 	//region Pagination Handling
 	private static @Nullable String getNextLink(String linksHeader) {
@@ -65,12 +68,22 @@ public final class GitHubApi {
 	}
 	//endregion
 
+	private static HttpRequest.Builder getRequestBuilder() {
+		HttpRequest.Builder builder = HttpRequest.newBuilder();
+		builder.version(HttpClient.Version.HTTP_2);
+		//noinspection UastIncorrectHttpHeaderInspection
+		builder.header("X-GitHub-Api-Version", GITHUB_API_VERSION);
+		if (GITHUB_TOKEN != null) {
+			builder.header("Authorization", "Bearer " + GITHUB_TOKEN);
+		}
+		return builder;
+	}
+
 	//region Changed Files - API
 	private static @Nullable PaginatableResponse getChangedFilesAPI(String link) {
-		HttpRequest request = HttpRequest.newBuilder()
+		HttpRequest request = getRequestBuilder()
 			.GET()
 			.uri(URI.create(link))
-			.version(HttpClient.Version.HTTP_2)
 			.build();
 
 		HttpResponse<String> response;
