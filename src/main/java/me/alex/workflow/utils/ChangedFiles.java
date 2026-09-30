@@ -32,12 +32,15 @@ public final class ChangedFiles {
 	}
 
 	public static List<File> getChangedFiles() {
-		if (GitHubContext.SHA == null || GitHubContext.REPO == null) {
-			LOGGER.info("Checking all repo files...");
-			return getAllFiles();
+		if (GitHubContext.SHA != null && GitHubContext.REPO != null) {
+			List<File> changedFiles = getPrFiles(GitHubContext.REPO.ownerName(), GitHubContext.REPO.repoName(), GitHubContext.PULL_NUM);
+			if (!changedFiles.isEmpty()) {
+				LOGGER.info("Only checking {} changed files...", changedFiles.size());
+				return changedFiles;
+			}
+			LOGGER.info("Failed to get changed files...");
 		}
-		List<File> changedFiles = getPrFiles(GitHubContext.REPO.ownerName(), GitHubContext.REPO.repoName(), GitHubContext.PULL_NUM);
-		LOGGER.info("Only checking {} changed files...", changedFiles.size());
-		return changedFiles;
+		LOGGER.info("Checking all repo files...");
+		return getAllFiles();
 	}
 }
