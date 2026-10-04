@@ -14,7 +14,7 @@ public class CheckColor implements ChildCheck<ParseItems.Item> {
 	@Override
 	public boolean checkData(CheckData<ParseItems.Item> checkData) {
 		var data = checkData.data();
-		int dyeColor = data.nbtTag().getCompoundOrEmpty("extraAttributes").getIntOr("color", -1);
+		int dyeColor = data.nbtTag().getCompoundOrEmpty("display").getIntOr("color", -1);
 		if (dyeColor == 10511680) {
 			logFileIssue(checkData.file(), "Invalid color in NBT!");
 			return false;
