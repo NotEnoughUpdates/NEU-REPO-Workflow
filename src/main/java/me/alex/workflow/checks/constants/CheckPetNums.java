@@ -92,7 +92,7 @@ public class CheckPetNums implements AbstractCheck {
 		}
 
 		if (!petNumKeys.isEmpty()) {
-			logFileIssue(file, "Not all pet numbers are used!");
+			logFileIssue(file, "Not all pet numbers are used!", "Unused: " + petNumKeys);
 			return false;
 		}
 
