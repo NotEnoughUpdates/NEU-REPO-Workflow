@@ -9,6 +9,9 @@ public final class Constants {
 		"RARE",
 		"EPIC",
 		"LEGENDARY",
-		"MYTHIC"
+		"MYTHIC",
+		"DIVINE",
+		"SPECIAL",
+		"VERY_SPECIAL"
 	);
 }
