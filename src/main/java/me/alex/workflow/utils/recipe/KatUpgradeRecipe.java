@@ -4,10 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record KatUpgradeRecipe(String input, String output, List<String> items,
-                               int coins, int time) implements Recipe {
+							   int coins, int time) implements Recipe {
 	public static final MapCodec<KatUpgradeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		Codec.STRING.fieldOf("input").forGetter(KatUpgradeRecipe::input),
 		Codec.STRING.fieldOf("output").forGetter(KatUpgradeRecipe::output),
@@ -23,11 +24,14 @@ public record KatUpgradeRecipe(String input, String output, List<String> items,
 
 	@Override
 	public List<String> getInputs() {
-		return List.of();
+		List<String> inputs = new ArrayList<>(items.size() + 1);
+		inputs.add(input);
+		inputs.addAll(items);
+		return inputs;
 	}
 
 	@Override
 	public List<String> getOutputs() {
-		return List.of();
+		return List.of(output);
 	}
 }

@@ -27,6 +27,6 @@ public record TradeRecipe(String cost, Optional<Integer> min, Optional<Integer> 
 
 	@Override
 	public List<String> getOutputs() {
-		return List.of();
+		return List.of(result);
 	}
 }
