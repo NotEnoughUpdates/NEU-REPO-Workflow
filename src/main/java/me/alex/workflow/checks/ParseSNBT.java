@@ -1,6 +1,12 @@
 package me.alex.workflow.checks;
 
-import me.alex.workflow.checks.snbt.*;
+import me.alex.workflow.checks.snbt.CheckColor;
+import me.alex.workflow.checks.snbt.CheckDataVersion;
+import me.alex.workflow.checks.snbt.CheckEnchantLevel;
+import me.alex.workflow.checks.snbt.CheckEnrichment;
+import me.alex.workflow.checks.snbt.CheckItemExists;
+import me.alex.workflow.checks.snbt.CheckProhibitedSnbt;
+import me.alex.workflow.checks.snbt.CheckSnbtId;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import org.jspecify.annotations.Nullable;
