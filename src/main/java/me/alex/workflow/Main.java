@@ -5,6 +5,7 @@ import me.alex.workflow.checks.AbstractCheck;
 import me.alex.workflow.checks.ParseJSON;
 import me.alex.workflow.checks.ParseSNBT;
 import me.alex.workflow.checks.RedundantSNBT;
+import me.alex.workflow.checks.constants.CheckAbiphone;
 import me.alex.workflow.checks.constants.CheckAttributes;
 import me.alex.workflow.checks.constants.CheckBazaarStocks;
 import me.alex.workflow.checks.constants.CheckParents;
@@ -43,6 +44,7 @@ public final class Main {
 		new CheckAttributes(),
 		new CheckBazaarStocks(),
 		new CheckSacks(),
+		new CheckAbiphone(),
 	};
 
 	static boolean fileMatches(File file, List<Pattern> patterns) {
