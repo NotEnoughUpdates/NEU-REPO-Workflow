@@ -8,7 +8,7 @@ import java.util.Set;
 public class CheckProhibitedNbt implements ChildCheck<ParseItems.Item> {
 	public static final Set<String> prohibitedKeys = Set.of(
 		"timestamp", "uuid", "winning_bid",
-		"blood_god_kills"
+		"blood_god_kills", "upgrade_level"
 	);
 
 	final String name = "Prohibited NBT";
